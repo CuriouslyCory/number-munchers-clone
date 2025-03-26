@@ -38,7 +38,7 @@ export default function GameGrid({ grid, muncher, troggles }: GameGridProps) {
 
       {/* Muncher */}
       <div
-        className="absolute transition-all duration-200"
+        className="absolute transition duration-200"
         style={{
           top: `${muncher.y * 20}%`,
           left: `${muncher.x * 16.666}%`,
@@ -53,7 +53,7 @@ export default function GameGrid({ grid, muncher, troggles }: GameGridProps) {
       {troggles.map((troggle) => (
         <div
           key={troggle.id}
-          className="absolute transition-all duration-200"
+          className="absolute transition duration-200"
           style={{
             top: `${troggle.position.y * 20}%`,
             left: `${troggle.position.x * 16.666}%`,

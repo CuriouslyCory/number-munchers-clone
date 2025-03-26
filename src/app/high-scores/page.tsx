@@ -35,7 +35,7 @@ export default function HighScoresPage() {
 
   return (
     <div className="flex min-h-screen flex-col items-center bg-blue-950 text-white p-4">
-      <div className="max-w-md w-full py-8">
+      <div className="max-w-md w-full py-8 mx-auto">
         <h1 className="text-3xl font-bold mb-8 text-center font-mono">HIGH SCORES</h1>
 
         <div className="bg-blue-900 border-2 border-pink-500 p-4 mb-8">

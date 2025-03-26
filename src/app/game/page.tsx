@@ -206,7 +206,7 @@ export default function GamePage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-blue-950 text-white p-4">
       {gameState.gameStatus === "ready" && (
-        <div className="absolute z-10 bg-blue-600 p-8 rounded-lg shadow-lg text-center">
+        <div className="absolute z-10 bg-blue-600 p-8 rounded-lg shadow-xl text-center">
           <h2 className="text-2xl font-bold mb-4">Level {gameState.level}</h2>
           <Button className="w-40 h-16 text-2xl" onClick={startGame}>
             Start
@@ -215,7 +215,7 @@ export default function GamePage() {
       )}
 
       {gameState.gameStatus === "gameOver" && (
-        <div className="absolute z-10 bg-blue-600 p-8 rounded-lg shadow-lg text-center">
+        <div className="absolute z-10 bg-blue-600 p-8 rounded-lg shadow-xl text-center">
           <h2 className="text-2xl font-bold mb-4">Game Over</h2>
           <p className="mb-4">Final Score: {gameState.score}</p>
           <Button className="w-40 h-12 text-xl mb-2" onClick={() => router.push("/")}>
@@ -242,7 +242,7 @@ export default function GamePage() {
         </div>
       )}
 
-      <div className="w-full max-w-3xl">
+      <div className="w-full max-w-3xl mx-auto">
         <GameHeader level={gameState.level} rule={gameState.rule} ruleValue={gameState.ruleValue} />
 
         <GameGrid grid={gameState.grid} muncher={gameState.muncher} troggles={gameState.troggles} />
