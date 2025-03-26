@@ -1,29 +1,163 @@
-# Create T3 App
+# Number Munchers Clone 🎮
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+A modern web-based remake of the classic educational game "Number Munchers". Practice your math skills while avoiding Troggles in this nostalgic yet contemporary take on the beloved classic.
 
-## What's next? How do I make an app with this?
+## 🎯 Features
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+- 🧮 Multiple game modes (Multiples, Factors, Primes, Equations, Inequalities)
+- 🎨 Modern, responsive design
+- 🏆 Score tracking and leaderboards
+- 🎵 Retro-inspired sound effects
+- 📱 Cross-platform compatibility
+- 🔒 User authentication with NextAuth.js
+- 🎨 Beautiful UI components from shadcn/ui
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## 🛠️ Tech Stack
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+- **Framework:** [Next.js 15](https://nextjs.org/)
+- **Frontend:**
+  - [React 19](https://react.dev/)
+  - [TailwindCSS 4](https://tailwindcss.com/)
+  - [shadcn/ui](https://ui.shadcn.com/) components
+- **Backend:**
+  - [tRPC 11](https://trpc.io/) for type-safe APIs
+  - [Drizzle ORM](https://orm.drizzle.team/) with PostgreSQL
+  - [NextAuth.js](https://next-auth.js.org/) for authentication
+- **Database:** PostgreSQL
+- **Development:**
+  - TypeScript
+  - ESLint
+  - Prettier
+  - pnpm (package manager)
 
-## Learn More
+## 📥 Installation
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+### Prerequisites
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+- Node.js 18.0 or higher
+- pnpm 8.0 or higher
+- PostgreSQL 15 or higher
+- Docker or Podman (for local database)
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+### Local Development Setup
 
-## How do I deploy this?
+1. Clone the repository:
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+```bash
+git clone https://github.com/yourusername/number-munchers-clone.git
+cd number-munchers-clone
+```
+
+2. Install dependencies:
+
+```bash
+pnpm install
+```
+
+3. Copy the example environment file:
+
+```bash
+cp .env.example .env
+```
+
+4. Update the `.env` file with your database and authentication credentials:
+
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/dbname"
+AUTH_SECRET="your-secret"
+AUTH_DISCORD_ID="your-discord-id"
+AUTH_DISCORD_SECRET="your-discord-secret"
+```
+
+5. Start the local database:
+
+```bash
+./start-database.sh
+```
+
+6. Initialize the database:
+
+```bash
+pnpm db:push
+```
+
+7. Start the development server:
+
+```bash
+pnpm dev
+```
+
+The application will be available at `http://localhost:3000`
+
+## 🚀 Deployment
+
+### General Deployment
+
+1. Build the application:
+
+```bash
+pnpm build
+```
+
+2. Start the production server:
+
+```bash
+pnpm start
+```
+
+### Vercel Deployment
+
+1. Install the [Vercel CLI](https://vercel.com/cli):
+
+```bash
+pnpm install -g vercel
+```
+
+2. Link your project:
+
+```bash
+vercel link
+```
+
+3. Deploy:
+
+```bash
+vercel deploy
+```
+
+Alternatively, you can connect your GitHub repository to Vercel for automatic deployments.
+
+## 🧪 Testing
+
+Run the test suite:
+
+```bash
+pnpm test
+```
+
+## 📖 Documentation
+
+Additional documentation can be found in the `/docs` directory, including:
+
+- Game Rules and Mechanics
+- API Documentation
+- Component Library
+- Database Schema
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Original Number Munchers game by MECC
+- [T3 Stack](https://create.t3.gg/) for the project foundation
+- All our contributors and supporters
+
+## 📞 Support
+
+For support, please open an issue in the GitHub repository.
