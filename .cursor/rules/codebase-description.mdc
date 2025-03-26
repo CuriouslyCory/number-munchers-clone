@@ -63,3 +63,18 @@ alwaysApply: true
 ├─ README.md
 └─ tsconfig.json
 
+## Gameplay
+Here’s a summary of the rules:
+
+🎮 Number Munchers - Game Summary
+
+Goal: Help the green “Muncher” eat the correct numbers on a grid while avoiding enemies (Troggles)!
+
+🟩 How to Play: • The game presents a 5x6 grid of numbers. • At the top of the screen, a math rule is displayed (e.g., Multiples of 3, Prime Numbers, Factors of 24). • You control the Muncher using arrow keys to move across the grid. • You press the spacebar (or walk over) to “munch” numbers that fit the given rule.
+
+📏 Types of Rules: 1. Multiples – Eat numbers that are multiples of a target number (e.g., 3, 5, 10). 2. Factors – Eat numbers that divide evenly into a given number. 3. Primes – Eat prime numbers only. 4. Equal Equations – Eat equations that match a given value. 5. Inequalities – Eat numbers or equations that meet inequality conditions (e.g., < 10).
+
+⚠️ Avoid the Troggles! • Troggles are enemies that roam the grid. If they touch the Muncher, you lose a life. • Some Troggles move randomly, while others follow you or patrol in patterns. • You can sometimes trick them into walking off the grid.
+
+❤️ Lives and Scoring: • You start with 3 lives. • Correct munches increase your score. • Wrong munches or getting caught by a Troggle lose you a life. • Bonus levels appear occasionally, where you munch without worrying about rules or enemies.
+
