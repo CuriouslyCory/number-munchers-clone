@@ -89,12 +89,33 @@ export default function GamePage() {
               munched: true,
             };
 
-            setGameState((prev) => ({
-              ...prev,
-              grid: newGrid,
-              score: isCorrect ? prev.score + 10 : Math.max(0, prev.score - 5),
-              lives: isCorrect ? prev.lives : prev.lives - 1,
-            }));
+            setGameState((prev) => {
+              const newLives = isCorrect ? prev.lives : prev.lives - 1;
+              const newGrid2 = [...newGrid];
+              const allCorrectMunched = newGrid2.every((row) =>
+                row.every(
+                  (cell) =>
+                    !checkAnswer(cell.value, prev.rule, prev.ruleValue) ||
+                    cell.munched,
+                ),
+              );
+              return {
+                ...prev,
+                grid: newGrid2,
+                score: isCorrect
+                  ? prev.score + 10
+                  : Math.max(0, prev.score - 5),
+                lives: newLives,
+                ...(newLives <= 0
+                  ? { gameStatus: "gameOver" as const }
+                  : allCorrectMunched
+                    ? {
+                        level: prev.level + 1,
+                        gameStatus: "ready" as const,
+                      }
+                    : {}),
+              };
+            });
           }
           return;
         default:
@@ -109,10 +130,14 @@ export default function GamePage() {
       );
 
       if (troggleCollision) {
-        setGameState((prev) => ({
-          ...prev,
-          lives: prev.lives - 1,
-        }));
+        setGameState((prev) => {
+          const newLives = prev.lives - 1;
+          return {
+            ...prev,
+            lives: newLives,
+            ...(newLives <= 0 ? { gameStatus: "gameOver" as const } : {}),
+          };
+        });
         return;
       }
 
@@ -169,10 +194,12 @@ export default function GamePage() {
         );
 
         if (muncherCollision) {
+          const newLives = prev.lives - 1;
           return {
             ...prev,
             troggles: newTroggles,
-            lives: prev.lives - 1,
+            lives: newLives,
+            ...(newLives <= 0 ? { gameStatus: "gameOver" as const } : {}),
           };
         }
 
@@ -187,42 +214,11 @@ export default function GamePage() {
     return () => clearInterval(troggleInterval);
   }, [gameState.gameStatus]);
 
-  // Check for game over
-  useEffect(() => {
-    if (gameState.lives <= 0) {
-      setGameState((prev) => ({
-        ...prev,
-        gameStatus: "gameOver",
-      }));
-    }
-  }, [gameState.lives]);
-
   // Add keyboard event listener
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
-
-  // Check for level completion
-  useEffect(() => {
-    if (gameState.gameStatus !== "playing") return;
-
-    const allCorrectCellsMunched = gameState.grid.every((row) =>
-      row.every(
-        (cell) =>
-          !checkAnswer(cell.value, gameState.rule, gameState.ruleValue) ||
-          cell.munched,
-      ),
-    );
-
-    if (allCorrectCellsMunched) {
-      setGameState((prev) => ({
-        ...prev,
-        level: prev.level + 1,
-        gameStatus: "ready",
-      }));
-    }
-  }, [gameState]);
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-blue-950 p-4 text-white">

@@ -1,17 +1,23 @@
-import { FlatCompat } from "@eslint/eslintrc";
+import nextPlugin from "@next/eslint-plugin-next";
+import reactHooksPlugin from "eslint-plugin-react-hooks";
 import tseslint from "typescript-eslint";
 // @ts-ignore -- no types for this plugin
 import drizzle from "eslint-plugin-drizzle";
-
-const compat = new FlatCompat({
-  baseDirectory: import.meta.dirname,
-});
 
 export default tseslint.config(
   {
     ignores: [".next"],
   },
-  ...compat.extends("next/core-web-vitals"),
+  nextPlugin.configs.recommended,
+  nextPlugin.configs["core-web-vitals"],
+  {
+    plugins: {
+      "react-hooks": reactHooksPlugin,
+    },
+    rules: {
+      ...reactHooksPlugin.configs.recommended.rules,
+    },
+  },
   {
     files: ["**/*.ts", "**/*.tsx"],
     plugins: {

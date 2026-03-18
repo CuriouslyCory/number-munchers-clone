@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
 
@@ -10,31 +10,29 @@ interface HighScore {
   date: string;
 }
 
-export default function HighScoresPage() {
-  const [highScores, setHighScores] = useState<HighScore[]>([]);
+const sampleScores: HighScore[] = [
+  { name: "MATH", score: 1200, date: "2023-01-15" },
+  { name: "WHIZ", score: 950, date: "2023-02-10" },
+  { name: "PROF", score: 800, date: "2023-03-05" },
+  { name: "NERD", score: 650, date: "2023-04-20" },
+  { name: "COOL", score: 500, date: "2023-05-12" },
+];
 
-  useEffect(() => {
-    // In a real app, this would fetch from an API
-    // For now, we'll use localStorage
-    const storedScores = localStorage.getItem("numberMunchersHighScores");
-    if (storedScores) {
-      setHighScores(JSON.parse(storedScores) as HighScore[]);
-    } else {
-      // Sample data
-      const sampleScores: HighScore[] = [
-        { name: "MATH", score: 1200, date: "2023-01-15" },
-        { name: "WHIZ", score: 950, date: "2023-02-10" },
-        { name: "PROF", score: 800, date: "2023-03-05" },
-        { name: "NERD", score: 650, date: "2023-04-20" },
-        { name: "COOL", score: 500, date: "2023-05-12" },
-      ];
-      setHighScores(sampleScores);
-      localStorage.setItem(
-        "numberMunchersHighScores",
-        JSON.stringify(sampleScores),
-      );
-    }
-  }, []);
+function loadHighScores(): HighScore[] {
+  if (typeof window === "undefined") return sampleScores;
+  const storedScores = localStorage.getItem("numberMunchersHighScores");
+  if (storedScores) {
+    return JSON.parse(storedScores) as HighScore[];
+  }
+  localStorage.setItem(
+    "numberMunchersHighScores",
+    JSON.stringify(sampleScores),
+  );
+  return sampleScores;
+}
+
+export default function HighScoresPage() {
+  const [highScores] = useState<HighScore[]>(loadHighScores);
 
   return (
     <div className="flex min-h-screen flex-col items-center bg-blue-950 p-4 text-white">
