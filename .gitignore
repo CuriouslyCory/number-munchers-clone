@@ -46,9 +46,10 @@ yarn-error.log*
 .idea
 
 .claude/settings.local.json
-.claude/skills/ralph/scripts/.last-branch
-.claude/skills/ralph/scripts/.last-completed-count
-.claude/skills/ralph/scripts/prd.json
-.claude/skills/ralph/scripts/progress.txt
+.agents/skills/ralph/scripts/.last-branch
+.agents/skills/ralph/scripts/.last-completed-count
+.agents/skills/ralph/scripts/prd.json
+.agents/skills/ralph/scripts/progress.txt
+.agents/skills/ralph/archive/
 
 **/dev-browser/tmp
