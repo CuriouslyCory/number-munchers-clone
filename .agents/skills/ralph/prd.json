@@ -75,7 +75,7 @@
         "pnpm build completes successfully"
       ],
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "notes": "Based on the previous Ralph run's learnings: next lint was removed in Next.js 16 — must use eslint . directly. The current next.config.js is minimal (empty config object) so should be forward-compatible. The lint script currently uses 'next lint' and must be changed. The check script is 'next lint && tsc --noEmit' and needs the same update."
     },
     {

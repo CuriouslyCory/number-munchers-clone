@@ -2,7 +2,7 @@
 Started: 2026-03-17
 
 ## Codebase Patterns
-- T3 stack app: Next.js 15 + tRPC 11 + Drizzle ORM + next-auth v5 beta
+- T3 stack app: Next.js 16 + tRPC 11 + Drizzle ORM + next-auth v5 beta
 - App Router with src/app/ directory structure
 - ESLint 9 flat config in eslint.config.js using FlatCompat + tseslint.config()
 - Tailwind CSS 4 with CSS-first config (@import "tailwindcss" in globals.css)
@@ -42,4 +42,20 @@ Started: 2026-03-17
   - Zod 4 is fully backward compatible with Zod 3 APIs used in this codebase
   - `ZodError` still exports from `"zod"` (not `"zod/v4/core"` as initially feared)
   - @t3-oss/env-nextjs v0.13.x works with Zod 4 without changes
+---
+
+## 2026-03-17 - US-003
+- Updated lint scripts from `next lint` to `eslint .` (next lint removed in Next.js 16)
+- Updated `check` script from `next lint && tsc --noEmit` to `eslint . && tsc --noEmit`
+- Updated `lint:fix` script from `next lint --fix` to `eslint --fix .`
+- next.config.js required no changes (minimal config is forward-compatible)
+- All App Router routes (pages, API routes) work unchanged with Next 16
+- `pnpm build` (with SKIP_ENV_VALIDATION=1) passes successfully
+- `pnpm typecheck` passes
+- Files changed: package.json
+- **Learnings for future iterations:**
+  - Next.js 16 build requires env vars or SKIP_ENV_VALIDATION=1 due to next.config.js importing src/env.js
+  - Next.js 16 auto-updates tsconfig.json include to add `.next/dev/types/**/*.ts`
+  - App Router patterns (route handlers, layouts, pages) are fully compatible between Next 15 and 16
+  - The `next lint` command is removed in Next.js 16 — must use `eslint .` directly
 ---
