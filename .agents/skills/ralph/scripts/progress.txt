@@ -4,7 +4,7 @@ Started: 2026-03-17
 ## Codebase Patterns
 - T3 stack app: Next.js 16 + tRPC 11 + Drizzle ORM + next-auth v5 beta
 - App Router with src/app/ directory structure
-- ESLint 9 flat config in eslint.config.js using FlatCompat + tseslint.config()
+- ESLint 10 flat config in eslint.config.js using tseslint.config() with @next/eslint-plugin-next directly
 - Tailwind CSS 4 with CSS-first config (@import "tailwindcss" in globals.css)
 - PostCSS config uses @tailwindcss/postcss plugin
 - tRPC uses httpBatchStreamLink with superjson transformer
@@ -78,4 +78,17 @@ Started: 2026-03-17
   - `eslint-plugin-react-hooks` v7 adds `set-state-in-effect` rule — synchronous setState in useEffect bodies is an error
   - Fix pattern: move state derivation into setState callbacks or use lazy useState initializers for external system reads
   - `@eslint/eslintrc` (FlatCompat) is no longer needed when using native flat configs
+---
+
+## 2026-03-17 - US-005
+- Removed `@eslint/eslintrc` from devDependencies (FlatCompat no longer used after US-004)
+- Removed `eslint-config-next` from devDependencies (replaced by `@next/eslint-plugin-next` direct usage in US-004)
+- `tailwindcss-animate` was already removed in US-001, no references found in source
+- `pnpm install` completes successfully (167 packages removed)
+- All verification commands pass: `pnpm typecheck`, `pnpm lint`, `pnpm build`
+- Files changed: package.json, pnpm-lock.yaml
+- **Learnings for future iterations:**
+  - After migrating away from `eslint-config-next`, both `eslint-config-next` and `@eslint/eslintrc` can be safely removed
+  - Removing `eslint-config-next` also removes its transitive deps (eslint-plugin-react, eslint-plugin-import, etc.) which had ESLint 10 peer dep warnings
+  - Final dep count is significantly smaller after cleanup
 ---
