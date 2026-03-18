@@ -1,0 +1,116 @@
+{
+  "project": "number-munchers-clone",
+  "branchName": "feat/dependency-upgrade",
+  "description": "Update all dependencies to latest versions: Next.js 16, Zod 4, React 19.2, ESLint 10, Vite 8, and all remaining packages to maximum compatible versions",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Update all package.json versions and install",
+      "description": "As a developer, I want all dependency version specifiers updated in package.json so the project uses the latest packages.",
+      "acceptanceCriteria": [
+        "In package.json dependencies: next updated to ^16.1.7",
+        "In package.json dependencies: react and react-dom updated to ^19.2.4",
+        "In package.json dependencies: zod updated to ^4.3.6",
+        "In package.json dependencies: next-auth updated to 5.0.0-beta.30",
+        "In package.json dependencies: @auth/drizzle-adapter updated to ^1.11.1",
+        "In package.json dependencies: @t3-oss/env-nextjs updated to ^0.13.10",
+        "In package.json dependencies: @tailwindcss/vite updated to ^4.2.1",
+        "In package.json dependencies: @tanstack/react-query updated to ^5.90.21",
+        "In package.json dependencies: @trpc/client, @trpc/react-query, @trpc/server all updated to ^11.13.4",
+        "In package.json dependencies: drizzle-orm updated to ^0.45.1",
+        "In package.json dependencies: lucide-react updated to ^0.577.0",
+        "In package.json dependencies: superjson updated to ^2.2.6",
+        "In package.json dependencies: tailwind-merge updated to ^3.5.0",
+        "In package.json dependencies: tw-animate-css updated to ^1.4.0",
+        "In package.json dependencies: vite updated to ^8.0.0",
+        "In package.json dependencies: tailwindcss-animate removed (redundant with tw-animate-css)",
+        "In package.json devDependencies: typescript updated to ^5.9.3",
+        "In package.json devDependencies: eslint updated to ^10.0.3",
+        "In package.json devDependencies: eslint-config-next updated to ^16.1.7",
+        "In package.json devDependencies: @next/eslint-plugin-next updated to ^16.1.7",
+        "In package.json devDependencies: @eslint/eslintrc updated to ^3.3.5",
+        "In package.json devDependencies: tailwindcss updated to ^4.2.1",
+        "In package.json devDependencies: @tailwindcss/postcss updated to ^4.2.1",
+        "In package.json devDependencies: @types/node updated to ^25.5.0",
+        "In package.json devDependencies: @types/react updated to ^19.2.14",
+        "In package.json devDependencies: @types/react-dom updated to ^19.2.3",
+        "In package.json devDependencies: drizzle-kit updated to ^0.31.10",
+        "In package.json devDependencies: postcss updated to ^8.5.8",
+        "In package.json devDependencies: prettier updated to ^3.8.1",
+        "In package.json devDependencies: prettier-plugin-tailwindcss updated to ^0.7.2",
+        "In package.json devDependencies: typescript-eslint updated to ^8.57.1",
+        "In package.json devDependencies: eslint-plugin-react-hooks updated to ^7.0.1",
+        "In package.json: packageManager field updated to pnpm@10.32.1",
+        "pnpm install completes (peer dependency warnings are acceptable at this stage)"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "This story only updates version specifiers and runs install. Code changes for breaking changes are handled in subsequent stories. Peer dependency warnings between packages are expected and will resolve as each migration story completes."
+    },
+    {
+      "id": "US-002",
+      "title": "Migrate Zod 3 to Zod 4",
+      "description": "As a developer, I want Zod upgraded to v4 with all code migrated so schema validation continues working correctly.",
+      "acceptanceCriteria": [
+        "In src/server/api/trpc.ts: ZodError import updated if Zod 4 changes the export location — the .flatten() method must still work in the error formatter",
+        "In src/env.js: verify z.string(), z.enum(), z.string().url(), z.string().optional() still work with Zod 4 — update imports if needed",
+        "In src/server/api/routers/post.ts: verify z.object(), z.string(), z.string().min(1) still work with Zod 4 — update imports if needed",
+        "Search entire src/ directory for any other zod imports and update them if needed",
+        "Typecheck passes with no Zod-related errors"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": "Zod 4 may export ZodError from a different path (e.g., zod/v4/core). The @t3-oss/env-nextjs v0.13.x peer dep accepts zod ^4.0.0 so it should be compatible. Key concern is the ZodError.flatten() method used in src/server/api/trpc.ts error formatter."
+    },
+    {
+      "id": "US-003",
+      "title": "Migrate Next.js 15 to 16",
+      "description": "As a developer, I want Next.js upgraded to v16 with any breaking changes addressed so the app builds and runs correctly.",
+      "acceptanceCriteria": [
+        "next.config.js reviewed for any Next 16 breaking changes and updated if needed",
+        "If next lint was removed in Next 16: update lint script in package.json from 'next lint' to 'eslint .' (and lint:fix from 'next lint --fix' to 'eslint --fix .')",
+        "If check script uses next lint: update it to use eslint directly",
+        "App Router routes in src/app/ verified to work with Next 16",
+        "API routes (src/app/api/auth/[...nextauth]/route.ts, src/app/api/trpc/[trpc]/route.ts) verified to work",
+        "pnpm build completes successfully"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": "Based on the previous Ralph run's learnings: next lint was removed in Next.js 16 — must use eslint . directly. The current next.config.js is minimal (empty config object) so should be forward-compatible. The lint script currently uses 'next lint' and must be changed. The check script is 'next lint && tsc --noEmit' and needs the same update."
+    },
+    {
+      "id": "US-004",
+      "title": "Migrate ESLint 9 to 10 and update plugins",
+      "description": "As a developer, I want ESLint upgraded to v10 with the config and plugins updated so linting works correctly.",
+      "acceptanceCriteria": [
+        "eslint.config.js reviewed and updated for ESLint 10 compatibility",
+        "FlatCompat from @eslint/eslintrc still works OR replaced with native flat config if eslint-config-next v16 exports flat config directly",
+        "eslint-plugin-react-hooks v7 rules verified — check for any rule renames or config format changes",
+        "typescript-eslint v8.57.1 configs (recommended, recommendedTypeChecked, stylisticTypeChecked) still work",
+        "eslint-plugin-drizzle rules still work",
+        "All custom rules preserved: array-type off, consistent-type-definitions off, consistent-type-imports warn, no-unused-vars warn with argsIgnorePattern ^_, require-await off, no-misused-promises error with checksVoidReturn attributes false",
+        "pnpm lint passes with no config errors (pre-existing code warnings acceptable)"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": "Based on previous Ralph run learnings: eslint-config-next v16 exports flat config arrays that can be spread into tseslint.config() — the FlatCompat wrapper from @eslint/eslintrc may no longer be needed. eslint-plugin-react-hooks v7 may include stricter rules (immutability, set-state-in-effect). If new lint errors appear from stricter rules, fix the code rather than disabling the rules."
+    },
+    {
+      "id": "US-005",
+      "title": "Clean up redundant packages and final verification",
+      "description": "As a developer, I want redundant packages removed and all verification commands passing to confirm the upgrade is complete.",
+      "acceptanceCriteria": [
+        "If tailwindcss-animate was not already removed in US-001: remove it now and verify no imports reference it in CSS or config files",
+        "Search src/styles/globals.css and any other CSS files for tailwindcss-animate imports — remove or replace with tw-animate-css equivalent",
+        "If @eslint/eslintrc is no longer needed (FlatCompat removed in US-004): remove it from devDependencies",
+        "pnpm install completes without errors",
+        "pnpm typecheck passes",
+        "pnpm lint passes",
+        "pnpm build passes"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": "This is the final cleanup and verification story. All three verification commands must pass. If any fail, diagnose and fix the issue in this story."
+    }
+  ]
+}

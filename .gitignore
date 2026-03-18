@@ -44,3 +44,12 @@ yarn-error.log*
 
 # idea files
 .idea
+
+.claude/settings.local.json
+.agents/skills/ralph/scripts/.last-branch
+.agents/skills/ralph/scripts/.last-completed-count
+.agents/skills/ralph/scripts/prd.json
+.agents/skills/ralph/scripts/progress.txt
+.agents/skills/ralph/archive/
+
+**/dev-browser/tmp
