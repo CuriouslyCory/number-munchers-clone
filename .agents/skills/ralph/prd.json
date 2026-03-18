@@ -92,7 +92,7 @@
         "pnpm lint passes with no config errors (pre-existing code warnings acceptable)"
       ],
       "priority": 4,
-      "passes": false,
+      "passes": true,
       "notes": "Based on previous Ralph run learnings: eslint-config-next v16 exports flat config arrays that can be spread into tseslint.config() — the FlatCompat wrapper from @eslint/eslintrc may no longer be needed. eslint-plugin-react-hooks v7 may include stricter rules (immutability, set-state-in-effect). If new lint errors appear from stricter rules, fix the code rather than disabling the rules."
     },
     {

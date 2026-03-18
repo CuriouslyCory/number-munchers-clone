@@ -16,6 +16,8 @@ Started: 2026-03-17
 - Zod 4 is backward compatible: `import { z } from "zod"` and `import { ZodError } from "zod"` both work unchanged
 - `next lint` removed in Next.js 16 — use `eslint .` directly in lint script
 - `eslint-config-next` v16 exports flat config arrays (can be spread into `tseslint.config()`)
+- `eslint-plugin-react` (bundled by eslint-config-next) is NOT compatible with ESLint 10 — use `@next/eslint-plugin-next` configs directly instead
+- `eslint-plugin-react-hooks` v7 adds `set-state-in-effect` rule — fix code to avoid synchronous setState in effects
 
 ---
 
@@ -58,4 +60,22 @@ Started: 2026-03-17
   - Next.js 16 auto-updates tsconfig.json include to add `.next/dev/types/**/*.ts`
   - App Router patterns (route handlers, layouts, pages) are fully compatible between Next 15 and 16
   - The `next lint` command is removed in Next.js 16 — must use `eslint .` directly
+---
+
+## 2026-03-17 - US-004
+- Replaced `eslint-config-next/core-web-vitals` with `@next/eslint-plugin-next` configs directly (recommended + core-web-vitals)
+- Removed FlatCompat from `@eslint/eslintrc` — no longer needed
+- Added `eslint-plugin-react-hooks` directly (instead of via eslint-config-next)
+- Fixed 3 `react-hooks/set-state-in-effect` errors:
+  - `src/app/game/page.tsx`: Removed game-over and level-completion useEffects, moved logic into setState callbacks where state changes
+  - `src/app/high-scores/page.tsx`: Replaced useEffect + setState with lazy useState initializer for localStorage read
+- All custom rules preserved (array-type, consistent-type-definitions, consistent-type-imports, no-unused-vars, require-await, no-misused-promises, drizzle rules)
+- `pnpm lint`, `pnpm typecheck`, and `pnpm build` all pass
+- Files changed: eslint.config.js, src/app/game/page.tsx, src/app/high-scores/page.tsx
+- **Learnings for future iterations:**
+  - `eslint-plugin-react` (used by eslint-config-next) uses `context.getFilename()` which was removed in ESLint 10 — causes runtime TypeError
+  - Bypass `eslint-config-next` entirely and use `@next/eslint-plugin-next` configs directly for ESLint 10 compatibility
+  - `eslint-plugin-react-hooks` v7 adds `set-state-in-effect` rule — synchronous setState in useEffect bodies is an error
+  - Fix pattern: move state derivation into setState callbacks or use lazy useState initializers for external system reads
+  - `@eslint/eslintrc` (FlatCompat) is no longer needed when using native flat configs
 ---
